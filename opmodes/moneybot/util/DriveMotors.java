@@ -93,9 +93,9 @@ public class DriveMotors {
 
             left_drive.setPower(throttle-turnRate);
             right_drive.setPower(throttle+turnRate);
-            
-            status = String.format("Driving (arcade) with power %d and turnRate %d", throttle, turnRate);
-            
+
+            status = String.format("Driving [arcade] with power %s and turnRate %s", throttle, turnRate);
+
         } else // tank drive
         {
 
@@ -110,7 +110,7 @@ public class DriveMotors {
             left_drive.setPower(lThrottle);
             right_drive.setPower(rThrottle);
 
-            status = String.format("Driving with power l: %d r: %d", lThrottle, rThrottle);
+            status = String.format("Driving [tank] with power l: %s r: %s", lThrottle, rThrottle);
 
         }
     }
@@ -119,7 +119,7 @@ public class DriveMotors {
     {
         return (left_drive.isBusy() || right_drive.isBusy());
     }
-    
+
     public String getStatus()
     {
         return status;
