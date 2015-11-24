@@ -4,6 +4,10 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.Range;
 
+/**
+ * This class is an old version of the TeleOP. We no longer use it or support it.
+ */
+
 public class SwagBotTeleOP extends OpMode {
 
     public DcMotor R, L, Lift;
@@ -13,6 +17,8 @@ public class SwagBotTeleOP extends OpMode {
 
     public boolean reversedControls = false;
     public boolean xcooldown, dpad_upcooldown, dpad_downcooldown = false;
+
+    public final double LIFT_POWER = 0.75;
 
     public SwagBotTeleOP() {}
 
@@ -62,9 +68,9 @@ public class SwagBotTeleOP extends OpMode {
 
         Range.clip(liftstatus, -1, 1);
 
-        Lift.setPower(liftstatus);
+        Lift.setPower(liftstatus * LIFT_POWER);
 
-        telemetry.addData("Text", "*** Robot Data***");
+        telemetry.addData("Text", "*** Robot Data ***");
         telemetry.addData("left tgt pwr", "left  pwr: " + String.format("%.2f", lThrottle));
         telemetry.addData("right tgt pwr", "right pwr: " + String.format("%.2f", rThrottle));
         telemetry.addData("controls reversed", String.valueOf(reversedControls));
@@ -84,4 +90,24 @@ public class SwagBotTeleOP extends OpMode {
         } else
             return joystick;
     }
+
+
+    /*
+    public double scaleThrottle(double d) {
+        double[] valueList = { 0.0, 0.05, 0.09, 0.10, 0.12, 0.15, 0.18, 0.24, 0.30, 0.36, 0.43,
+                0.50, 0.60, 0.72, 0.85, 1.00, 1.00 };
+        int valueIndex = (int) d * 16;
+
+        if (valueIndex < 0)
+            valueIndex = -valueIndex;
+
+        if (valueIndex > 16)
+            valueIndex = 16;
+
+        if (d < 0)
+            return -valueList[valueIndex];
+        else
+            return valueList[valueIndex];
+    */
+
 }
