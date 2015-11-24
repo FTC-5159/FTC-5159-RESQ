@@ -11,7 +11,7 @@ public class DriveMotors {
 
     private DcMotor left_drive, right_drive;
 
-    public String status;
+    private String status;
 
     private boolean reversedControls = false;
     private boolean reverseCooldown = false;
