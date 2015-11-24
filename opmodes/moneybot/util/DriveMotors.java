@@ -12,6 +12,7 @@ public class DriveMotors {
     private DcMotor left_drive, right_drive;
 
     public String status;
+
     private boolean reversedControls = false;
     private boolean reverseCooldown = false;
 
@@ -30,11 +31,13 @@ public class DriveMotors {
 
         left_drive.setDirection(DcMotor.Direction.REVERSE);
 
-        status = "initialized"; // TODO: put status everywhere
+        status = "initialized";
     }
 
-    public void drive(double inches, double turnRate, double power) {
-        if (!isBusy()) {
+    public void drive(double inches, int turn, double power)
+    {
+        if (!isBusy())
+        {
             if (!left_drive.getMode().equals(DcMotorController.RunMode.RUN_TO_POSITION))
                 left_drive.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
             if (!right_drive.getMode().equals(DcMotorController.RunMode.RUN_TO_POSITION))
@@ -45,8 +48,21 @@ public class DriveMotors {
             left_drive.setTargetPosition(counts);
             right_drive.setTargetPosition(counts);
 
-            left_drive.setPower(power - turnRate);
-            right_drive.setPower(power + turnRate);
+            if (turn != 0)
+            {
+                left_drive.setPower(power * turn);
+                right_drive.setPower(power * (-turn));
+            } else
+            {
+                left_drive.setPower(power);
+                right_drive.setPower(power);
+            }
+
+
+
+            status = "Driving for " + inches +
+                    " inches with turn" + turn +
+                    " and power " + power;
         }
     }
 
@@ -77,8 +93,9 @@ public class DriveMotors {
 
             left_drive.setPower(throttle-turnRate);
             right_drive.setPower(throttle+turnRate);
-
-
+            
+            status = String.format("Driving (arcade) with power %d and turnRate %d", throttle, turnRate);
+            
         } else // tank drive
         {
 
@@ -93,14 +110,18 @@ public class DriveMotors {
             left_drive.setPower(lThrottle);
             right_drive.setPower(rThrottle);
 
+            status = String.format("Driving with power l: %d r: %d", lThrottle, rThrottle);
+
         }
     }
 
     public boolean isBusy()
     {
-        if (left_drive.isBusy() || right_drive.isBusy())
-            return true;
-        else
-            return false;
+        return (left_drive.isBusy() || right_drive.isBusy());
+    }
+    
+    public String getStatus()
+    {
+        return status;
     }
 }
