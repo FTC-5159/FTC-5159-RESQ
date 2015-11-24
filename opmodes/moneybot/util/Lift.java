@@ -10,17 +10,21 @@ public class Lift
 
     private DcMotor lift_motor;
     private Servo gate;
-    
+
     private final double NORMAL_POWER = 0.75;
-    
+
     private final double DOWN_POSITION = 0;
     private final double UP_POSITION = 0.5;
-    
+
+    private String status;
+
 
     // 1 = full on
     // 0 = off
     // -1 = backwards
-    
+
+
+
     private int liftStatus = 0;
     private boolean dpad_cooldown = false;
     private boolean y_cooldown = false;
@@ -58,11 +62,18 @@ public class Lift
         } else if (!gamepad.y && y_cooldown)
             y_cooldown = false;
 
+        status = String.format("Power: %s Gate: %s", liftStatus, gate.getPosition());
+
     }
 
-    public void runLift(double power)
+    public void runLift(int power)
     {
         lift_motor.setPower(power * NORMAL_POWER);
 
+    }
+
+    public String getStatus()
+    {
+        return status;
     }
 }
